@@ -1,0 +1,15 @@
+play用 memcached用プラグイン
+
+spymemcachedのラッパー
+
+更新系はmaster, 取得系はslaveを使用
+取得系はscalaのOptionを使用
+
+application.confに以下の設定が必要
+mem.master.host=192.168.228.10:18801
+mem.slave.host=192.168.228.10:18801
+mem.timeout=1000
+
+mem.*.hostには複数指定可能
+例).
+mem.master.host=192.168.228.10:18801 192.168.228.11:18801

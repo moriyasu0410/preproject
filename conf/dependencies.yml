@@ -1,0 +1,21 @@
+# Application dependencies
+
+require:
+    - play
+    - play -> scala 0.9.1
+    - mem -> mem 0.1
+    - com.codahale -> jerkson_2.8.2 0.5.0:
+       exclude:
+         - org.scala-lang -> *
+
+repositories:
+    - adconnect modules:
+        type:       local
+        artifact:   ${application.path}/deps/[module]
+        contains:
+            - mem -> mem 0.1
+    - codahale:
+        type: iBiblio
+        root: "http://repo.codahale.com/"
+        contains:
+            - com.codahale -> *

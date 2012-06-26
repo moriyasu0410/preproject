@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="mem" default="build" basedir=".">
+
+    <target name="check" unless="play.path">
+        <fail message="Please specify Play framework path using -Dplay.path=/path/to/framework/home" />
+    </target>
+
+    <path id="project.classpath">
+        <fileset dir="${play.path}/framework/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${play.path}/framework">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="play-scala.classpath">
+        <fileset dir="${play.path}/modules/scala-0.9.1/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="build" depends="compile">
+        <mkdir dir="lib" />
+        <copy todir="tmp/classes">
+            <fileset dir="src">
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+                <include name="**/play.plugins"/>
+                <include name="**/play.static"/>
+            </fileset>
+        </copy>
+        <jar destfile="lib/play-mem.jar" basedir="tmp/classes">
+            <manifest>
+                <section name="Play-module">
+                    <attribute name="Specification-Title" value="mem"/>
+                </section>
+            </manifest>
+        </jar>
+        <delete dir="tmp" />
+    </target>
+
+    <target name="compile" depends="check">
+        <property name="scala-lib" value="${play.path}/modules/scala-0.9.1"/>
+        <property name="scala-library.jar" value="${scala-lib}/lib/scala-library.jar" />
+        <taskdef resource="scala/tools/ant/antlib.xml">
+            <classpath>
+                <pathelement location="${scala-lib}/lib/scala-compiler.jar" />
+                <pathelement location="${scala-library.jar}" />
+            </classpath>
+        </taskdef>
+        <mkdir dir="tmp/classes" />
+        <scalac srcdir="src" destdir="tmp/classes"
+            unchecked="on" deprecation="on" force="changed">
+            <classpath refid="project.classpath" />
+            <classpath refid="play-scala.classpath" />
+        </scalac>
+        <!--
+        <javac srcdir="src" destdir="tmp/classes" target="1.5" debug="true">
+            <classpath refid="project.classpath" />
+        </javac>
+        -->
+    </target>
+
+</project>
