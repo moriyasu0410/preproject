@@ -7,6 +7,7 @@ import play.mvc.results.Status
 import play.mvc.results.Result
 import model.SampleRequest
 import daos.files.TestFileDao
+import model.SampleKVS
 
 object Application extends Controller with ExceptionHandler{
 
@@ -30,15 +31,23 @@ object Application extends Controller with ExceptionHandler{
       // レコード挿入
       req.safeSet()
 
+      // レコード取得
+      val kvs = SampleKVS.get(req)
+      Logger.info(kvs.pk.toString())
+      Logger.info(kvs.a.toString())
+      Logger.info(kvs.b.toString())
+      Logger.info(kvs.c.toString())
+
       // プロパティ取得（conf/application.confを取得する）
       Logger.info(Play.configuration.getProperty("application.mode"))
 
       // ファイル取得
+      val msg = TestFileDao.readFileAsString("messages")
       Logger.info(TestFileDao.readFileAsString("messages"))
 
       val a = req.get() match {
         case Some(samplerequest) => samplerequest.toString()
-        case None => "none"
+        case _ => "none"
       }
       Logger.info(a)
 
