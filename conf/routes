@@ -5,6 +5,8 @@
 # Home page
 GET     /                                       Application.index
 GET     /sample                                 Application2.index
+GET     /start                                  Application3.start
+GET     /stop                                   Application3.stop
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

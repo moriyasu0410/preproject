@@ -22,7 +22,7 @@ object SampleHttp {
     sampleHttp.headers += "Accept-Language" -> r.headers.get("accept-language").value()
     sampleHttp.headers += "Accept"          -> r.headers.get("accept").value()
     sampleHttp.headers += "Accept-Charset"  -> r.headers.get("accept-charset").value()
-    sampleHttp.headers += "Referer"         -> r.headers.get("referer").value()
-    sampleHttp 
-  } 
-} 
+//    sampleHttp.headers += "Referer"         -> r.headers.get("referer").value()
+    sampleHttp
+  }
+}
